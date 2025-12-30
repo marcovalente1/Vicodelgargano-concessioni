@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>🏛️ Concessioni Vico del Gargano - QR Scanner</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; background: #f0f8ff; }
+        .concessione { border: 2px solid #007bff; border-radius: 10px; padding: 20px; margin: 20px 0; background: white; }
+        .stato.approvata { background: #d4edda; border-color: #28a745; }
+        .stato.scaduta { background: #f8d7da; border-color: #dc3545; }
+        .qr-scanner { text-align: center; margin: 20px 0; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .dati { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🏛️ <strong>Comune di Vico del Gargano</strong></h1>
+    <h2>📱 Verifica Concessione</h2>
+    
+    <div id="scanner">
+        <div class="qr-scanner">
+            <h3>🔍 Scannerizza QR o inserisci ID</h3>
+            <input type="text" id="idConcessione" placeholder="es. 123" style="padding:10px; font-size:18px;">
+            <button onclick="caricaConcessione()">🔎 VERIFICA</button>
+        </div>
+    </div>
+    
+    <div id="risultato" style="display:none;">
+        <div class="concessione" id="datiConcessione">
+            <h3 id="titolo"></h3>
+            <div class="dati">
+                <strong>Soggetto:</strong> <span id="soggetto"></span>
+                <strong>Data Evento:</strong> <span id="dataEvento"></span>
+                <strong>Luogo:</strong> <span id="luogo"></span>
+                <strong>Stato:</strong> <span id="stato"></span>
+                <strong>Scadenza:</strong> <span id="scadenza"></span>
+                <strong>Note:</strong> <span id="note"></span>
+            </div>
+            <br>
+            <button onclick="caricaRendiconto()">📤 Carica Rendiconto</button>
+            <button onclick="stampaPDF()">🖨️ Stampa PDF</button>
+        </div>
+    </div>
+
+    <script>
+        function caricaConcessione() {
+            const id = document.getElementById('idConcessione').value;
+            // SIMULAZIONE DATI (sostituisci con tua API)
+            const datiDemo = {
+                123: {
+                    titolo: "🎪 Sagra d'Autunno Arciconfraternita",
+                    soggetto: "Arciconfraternita SS Sacramento",
+                    dataEvento: "06/12/2025",
+                    luogo: "Piazza Castello",
+                    stato: "APPROVATA",
+                    scadenza: "05/01/2026",
+                    note: "SCIA completa. Polizza OK."
+                }
+            };
+            
+            const concessione = datiDemo[id] || {
+                titolo: "❌ ID non trovato",
+                soggetto: "Concessione non valida",
+                stato: "ERRORE"
+            };
+            
+            mostraConcessione(concessione);
+        }
+        
+        function mostraConcessione(dati) {
+            document.getElementById('titolo').textContent = dati.titolo;
+            document.getElementById('soggetto').textContent = dati.soggetto;
+            document.getElementById('dataEvento').textContent = dati.dataEvento;
+            document.getElementById('luogo').textContent = dati.luogo;
+            document.getElementById('stato').textContent = dati.stato;
+            document.getElementById('scadenza').textContent = dati.scadenza;
+            document.getElementById('note').textContent = dati.note;
+            
+            const risultato = document.getElementById('risultato');
+            risultato.style.display = 'block';
+            risultato.querySelector('.concessione').className = `concessione stato ${dati.stato.toLowerCase()}`;
+        }
+        
+        function caricaRendiconto() {
+            alert("📤 Caricamento rendiconto... Invia foto/fatture a vicodelgargano@postecert.it");
+        }
+        
+        function stampaPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
